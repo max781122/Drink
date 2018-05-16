@@ -23,15 +23,11 @@ class EditViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     @IBOutlet weak var drinkName: UITextField!
 
     @IBAction func deleteBtnClick(_ sender: Any) {
-        guard (name.text?.isEmpty)!==false else {
-            return
-        }
-        NetworkHelper.shared.delete(column: "name", value: name.text!) { (resp:[String:Any]?) in
-            let alert = UIAlertController(title: "訊息", message: "刪除成功", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
-                self.navigationController?.popViewController(animated: true)
-            }))
-            self.present(alert, animated: true)
+
+        NetworkHelper.shared.delete(column: "name", value: oldName!) { (resp:[String:Any]?) in
+            DispatchQueue.main.async {
+                self.showAlert(msg: "刪除成功", dismissFlag: true)
+            }
         }
     }
     
